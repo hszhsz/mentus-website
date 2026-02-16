@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, type ChangeEvent, type FormEvent } from 'react'
 import Link from 'next/link'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 
-export default function LoginPage() {
-  const [email, setEmail] = useState('')
+export default function RegisterPage() {
+  const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitted'>('idle')
 
@@ -21,17 +21,18 @@ export default function LoginPage() {
             <Link href="/" className="text-sm font-semibold tracking-wide text-white">
               Mentus
             </Link>
-            <h1 className="mt-4 text-2xl font-semibold tracking-tight text-white">欢迎回来</h1>
-            <p className="mt-2 text-sm text-zinc-300/80">登录你的 Mentus 账号</p>
+            <h1 className="mt-4 text-2xl font-semibold tracking-tight text-white">创建账号</h1>
+            <p className="mt-2 text-sm text-zinc-300/80">
+              一个账号，打通桌面端与云端协同。
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             <div>
               <label className="text-xs text-zinc-400">邮箱 / 手机号</label>
               <input
-                type="text"
-                value={email}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                value={account}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setAccount(e.target.value)}
                 className="mt-2 w-full rounded-xl bg-white/5 px-4 py-3 text-sm text-white ring-1 ring-white/10 outline-none transition focus:ring-primary-500/40"
                 placeholder="请输入邮箱或手机号"
                 autoComplete="username"
@@ -39,48 +40,49 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="text-xs text-zinc-400">密码</label>
+              <label className="text-xs text-zinc-400">设置密码</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 className="mt-2 w-full rounded-xl bg-white/5 px-4 py-3 text-sm text-white ring-1 ring-white/10 outline-none transition focus:ring-primary-500/40"
                 placeholder="请输入密码"
-                autoComplete="current-password"
+                autoComplete="new-password"
               />
             </div>
 
-            <div className="flex items-center justify-between text-xs text-zinc-300/80">
-              <label className="inline-flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-white/10 bg-white/5"
-                />
-                记住我
-              </label>
-              <Link href="/forgot-password" className="text-primary-500 hover:text-primary-400">
-                忘记密码？
-              </Link>
-            </div>
+            <label className="flex items-start gap-2 text-xs text-zinc-300/80">
+              <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-white/10 bg-white/5" />
+              <span>
+                我已阅读并同意{' '}
+                <Link href="/terms" className="text-primary-500 hover:text-primary-400">
+                  服务条款
+                </Link>{' '}
+                与{' '}
+                <Link href="/privacy" className="text-primary-500 hover:text-primary-400">
+                  隐私政策
+                </Link>
+              </span>
+            </label>
 
             <button
               type="submit"
               className="inline-flex w-full items-center justify-center rounded-full bg-primary-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-primary-500"
             >
-              登录
+              注册
             </button>
           </form>
 
           {status === 'submitted' ? (
             <div className="mt-4 rounded-xl bg-white/5 p-4 text-xs text-zinc-300/80 ring-1 ring-white/10">
-              当前为官网演示：账号体系将对接云端服务。你可以先完成官网下载并体验本地能力。
+              当前为官网演示：注册将对接云端账号系统。你可以先体验本地执行与下载流程。
             </div>
           ) : null}
 
           <div className="mt-6 text-center text-xs text-zinc-300/80">
-            还没有账号？{' '}
-            <Link href="/register" className="text-primary-500 hover:text-primary-400">
-              立即注册
+            已有账号？{' '}
+            <Link href="/login" className="text-primary-500 hover:text-primary-400">
+              去登录
             </Link>
           </div>
         </div>
@@ -88,3 +90,4 @@ export default function LoginPage() {
     </div>
   )
 }
+

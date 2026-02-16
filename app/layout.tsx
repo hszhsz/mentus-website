@@ -1,16 +1,39 @@
-export const metadata = {
-  title: 'Mentus - 你的个人AI助理',
-  description: 'Mentus 是基于OpenClaw内核的个人AI助理，脑+手的完美结合，让AI真正为你所用',
+import './globals.css'
+
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import type { ReactNode } from 'react'
+
+import SiteFooter from '../components/SiteFooter'
+import SiteHeader from '../components/SiteHeader'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Mentus — 脑 + 手的个人 AI 助理',
+    template: '%s · Mentus',
+  },
+  description:
+    'Mentus 基于 OpenClaw 内核，将智慧思考与动手执行合二为一：本地执行保护隐私，云端只做同步，多端协同更简单。',
 }
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
-    <html lang="zh-CN">
-      <body>{children}</body>
+    <html lang="zh-CN" className={inter.className}>
+      <body>
+        <div className="pointer-events-none fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_20%_10%,rgba(14,165,233,0.18),transparent_55%),radial-gradient(700px_circle_at_80%_20%,rgba(99,102,241,0.16),transparent_50%),radial-gradient(600px_circle_at_40%_90%,rgba(16,185,129,0.10),transparent_55%)]" />
+          <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,rgba(255,255,255,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:56px_56px]" />
+        </div>
+        <SiteHeader />
+        <main className="relative">{children}</main>
+        <SiteFooter />
+      </body>
     </html>
   )
 }
