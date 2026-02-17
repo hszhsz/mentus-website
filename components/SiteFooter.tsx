@@ -1,37 +1,126 @@
 import Link from 'next/link'
+import { Github, Twitter, Mail } from 'lucide-react'
+
+interface FooterLink {
+  href: string;
+  label: string;
+  external?: boolean;
+}
+
+interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
+
+const footerLinks: Record<string, FooterSection> = {
+  product: {
+    title: '产品',
+    links: [
+      { href: '/skills', label: 'Skill 市场' },
+      { href: '/pricing', label: '定价' },
+      { href: '/download', label: '下载' },
+      { href: '/about', label: '关于我们' },
+    ],
+  },
+  support: {
+    title: '支持',
+    links: [
+      { href: '/contact', label: '联系我们' },
+      { href: '/privacy', label: '隐私政策' },
+      { href: '/terms', label: '服务条款' },
+      { href: 'mailto:contact@mentus.ai', label: '发送邮件' },
+    ],
+  },
+  community: {
+    title: '社区',
+    links: [
+      { href: 'https://github.com/mentus', label: 'GitHub', external: true },
+      { href: 'https://twitter.com/mentusai', label: 'Twitter', external: true },
+      { href: '#', label: 'Discord', external: true },
+      { href: '#', label: '开发者文档', external: true },
+    ],
+  },
+}
 
 export default function SiteFooter() {
   return (
     <footer className="border-t border-white/10 bg-zinc-950/60">
-      <div className="container py-12">
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-2">
-            <div className="text-lg font-semibold tracking-wide">Mentus</div>
-            <div className="muted text-sm">让 AI 真正为你所用，把时间还给你。</div>
+      <div className="container py-12 lg:py-16">
+        <div className="grid gap-10 lg:grid-cols-5">
+          {/* Brand */}
+          <div className="lg:col-span-2">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="h-8 w-8 rounded-lg bg-[radial-gradient(circle_at_30%_20%,rgba(14,165,233,0.9),transparent_55%),radial-gradient(circle_at_70%_80%,rgba(99,102,241,0.7),transparent_55%)] ring-1 ring-white/10" />
+              <span className="text-lg font-semibold tracking-wide">Mentus</span>
+            </Link>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-zinc-400">
+              让 AI 真正为你所用，把时间还给你。本地执行，云端同步，多端协同。
+            </p>
+            <div className="mt-6 flex items-center gap-4">
+              <a
+                href="https://github.com/mentus"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-zinc-400 ring-1 ring-white/10 transition hover:bg-white/10 hover:text-white"
+                aria-label="GitHub"
+              >
+                <Github className="h-5 w-5" />
+              </a>
+              <a
+                href="https://twitter.com/mentusai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-zinc-400 ring-1 ring-white/10 transition hover:bg-white/10 hover:text-white"
+                aria-label="Twitter"
+              >
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a
+                href="mailto:contact@mentus.ai"
+                className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-zinc-400 ring-1 ring-white/10 transition hover:bg-white/10 hover:text-white"
+                aria-label="Email"
+              >
+                <Mail className="h-5 w-5" />
+              </a>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm text-zinc-200/90 md:flex md:items-center md:gap-8">
-            <Link href="/privacy" className="transition hover:text-white">
-              隐私政策
-            </Link>
-            <Link href="/terms" className="transition hover:text-white">
-              服务条款
-            </Link>
-            <Link href="/contact" className="transition hover:text-white">
-              联系我们
-            </Link>
-            <a
-              href="mailto:contact@mentus.ai"
-              className="transition hover:text-white"
-            >
-              邮件
-            </a>
-          </div>
+          {/* Links */}
+          {Object.entries(footerLinks).map(([key, section]) => (
+            <div key={key}>
+              <h3 className="text-sm font-semibold text-white">{section.title}</h3>
+              <ul className="mt-4 space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noopener noreferrer' : undefined}
+                      className="text-sm text-zinc-400 transition hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-8 text-xs text-zinc-400 md:flex-row md:items-center md:justify-between">
-          <div>© {new Date().getFullYear()} Mentus. All rights reserved.</div>
-          <div className="muted">Built with a calm, human-first default.</div>
+        {/* Bottom */}
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-zinc-500 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            © {new Date().getFullYear()} Mentus. All rights reserved.
+          </div>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="transition hover:text-zinc-300">
+              隐私
+            </Link>
+            <Link href="/terms" className="transition hover:text-zinc-300">
+              条款
+            </Link>
+            <span>Built with a calm, human-first default.</span>
+          </div>
         </div>
       </div>
     </footer>
