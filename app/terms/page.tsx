@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import PageShell from '../../components/PageShell'
+import PageShell from '@/components/PageShell'
 
 export const metadata: Metadata = {
   title: '服务条款',

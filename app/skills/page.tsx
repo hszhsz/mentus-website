@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import type { Metadata } from 'next'
 import {
   Brain,
@@ -16,21 +19,12 @@ import {
   Type,
 } from 'lucide-react'
 
-import PageShell from '../../components/PageShell'
+import PageShell from '@/components/PageShell'
+import { skillCategories } from '@/lib/data'
+import type { Skill } from '@/types'
 
-export const metadata: Metadata = {
-  title: 'Skill 市场',
-  description: '探索 Mentus Skill 生态：日常工具 + 职业技能，让 AI 能力随需求生长。',
-}
-
-const skillCategories = [
-  { id: 'all', name: '全部', icon: LayoutGrid },
-  { id: 'daily', name: '日常通用', icon: Sun },
-  { id: 'career', name: '职业垂直', icon: Brain },
-  { id: 'tool', name: '工具辅助', icon: Shield },
-]
-
-const skills = [
+// Skill 数据
+const skills: Skill[] = [
   {
     id: 'file-manager',
     name: '文件管理',
@@ -154,6 +148,12 @@ const skills = [
 ]
 
 export default function SkillsPage() {
+  const [activeCategory, setActiveCategory] = useState('all')
+
+  const filteredSkills = activeCategory === 'all'
+    ? skills
+    : skills.filter(skill => skill.category === activeCategory)
+
   return (
     <PageShell
       title="Skill 市场"
@@ -164,7 +164,12 @@ export default function SkillsPage() {
         {skillCategories.map((category) => (
           <button
             key={category.id}
-            className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-zinc-200 ring-1 ring-white/10 transition hover:bg-white/10"
+            onClick={() => setActiveCategory(category.id)}
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm ring-1 transition ${
+              activeCategory === category.id
+                ? 'bg-primary-600 text-white ring-primary-500'
+                : 'bg-white/5 text-zinc-200 ring-white/10 hover:bg-white/10'
+            }`}
           >
             <category.icon className="h-4 w-4 text-primary-500" />
             {category.name}
@@ -174,10 +179,17 @@ export default function SkillsPage() {
 
       {/* Skill 网格 */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {skills.map((skill) => (
+        {filteredSkills.map((skill) => (
           <SkillCard key={skill.id} skill={skill} />
         ))}
       </div>
+
+      {/* 空状态 */}
+      {filteredSkills.length === 0 && (
+        <div className="mt-8 text-center text-zinc-400">
+          该分类下暂无 Skill
+        </div>
+      )}
 
       {/* 底部提示 */}
       <div className="mt-10 rounded-2xl bg-gradient-to-r from-primary-600/20 to-indigo-600/20 p-6 ring-1 ring-primary-500/20">
@@ -200,20 +212,7 @@ export default function SkillsPage() {
   )
 }
 
-function SkillCard({
-  skill,
-}: {
-  skill: {
-    id: string
-    name: string
-    description: string
-    category: string
-    icon: React.ComponentType<{ className?: string }>
-    price: number
-    downloads: number
-    rating: number
-  }
-}) {
+function SkillCard({ skill }: { skill: Skill }) {
   const Icon = skill.icon
 
   return (

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Apple, Check, Download, Monitor, Terminal } from 'lucide-react'
 
-import PageShell from '../../components/PageShell'
+import PageShell from '@/components/PageShell'
 
 export const metadata: Metadata = {
   title: '下载 Mentus',

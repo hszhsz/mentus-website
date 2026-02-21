@@ -1,46 +1,6 @@
 import Link from 'next/link'
 import { Github, Twitter, Mail } from 'lucide-react'
-
-interface FooterLink {
-  href: string;
-  label: string;
-  external?: boolean;
-}
-
-interface FooterSection {
-  title: string;
-  links: FooterLink[];
-}
-
-const footerLinks: Record<string, FooterSection> = {
-  product: {
-    title: '产品',
-    links: [
-      { href: '/skills', label: 'Skill 市场' },
-      { href: '/pricing', label: '定价' },
-      { href: '/download', label: '下载' },
-      { href: '/about', label: '关于我们' },
-    ],
-  },
-  support: {
-    title: '支持',
-    links: [
-      { href: '/contact', label: '联系我们' },
-      { href: '/privacy', label: '隐私政策' },
-      { href: '/terms', label: '服务条款' },
-      { href: 'mailto:contact@mentus.ai', label: '发送邮件' },
-    ],
-  },
-  community: {
-    title: '社区',
-    links: [
-      { href: 'https://github.com/mentus', label: 'GitHub', external: true },
-      { href: 'https://twitter.com/mentusai', label: 'Twitter', external: true },
-      { href: '#', label: 'Discord', external: true },
-      { href: '#', label: '开发者文档', external: true },
-    ],
-  },
-}
+import { footerLinks } from '@/lib/data'
 
 export default function SiteFooter() {
   return (

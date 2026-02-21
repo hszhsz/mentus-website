@@ -3,13 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X, Download } from 'lucide-react'
-
-const navItems = [
-  { href: '/skills', label: 'Skill 市场' },
-  { href: '/pricing', label: '定价' },
-  { href: '/download', label: '下载' },
-  { href: '/about', label: '关于' },
-]
+import { navItems } from '@/lib/data'
 
 export default function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)

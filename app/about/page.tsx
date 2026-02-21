@@ -3,71 +3,18 @@ import {
   Brain,
   Cloud,
   Hand,
-  Heart,
-  Lightbulb,
-  Shield,
   Sparkles,
   Target,
-  Users,
   Zap,
 } from 'lucide-react'
 
-import PageShell from '../../components/PageShell'
+import PageShell from '@/components/PageShell'
+import { values, milestones } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: '关于 Mentus',
   description: '了解 Mentus 的故事、使命和团队。我们相信 AI 应该让每个人都能轻松使用。',
 }
-
-const values = [
-  {
-    icon: Heart,
-    title: '用户优先',
-    description: '始终把用户体验放在第一位，用最少的操作完成最多的任务。',
-  },
-  {
-    icon: Shield,
-    title: '隐私至上',
-    description: '本地执行优先，云端只做同步，敏感数据永远不会上传。',
-  },
-  {
-    icon: Lightbulb,
-    title: '持续创新',
-    description: '基于 OpenClaw 内核不断优化，为用户带来最新最好的 AI 体验。',
-  },
-  {
-    icon: Users,
-    title: '开放生态',
-    description: '构建开放的 Skill 市场，让用户和开发者共同创造无限可能。',
-  },
-]
-
-const milestones = [
-  {
-    date: '2026 Q1',
-    title: 'MVP 发布',
-    description: '完成基础功能开发，支持 Windows、macOS 和 Linux 平台。',
-    status: '进行中',
-  },
-  {
-    date: '2026 Q2',
-    title: 'Skill 市场上线',
-    description: '开放第三方 Skill 开发，推出职业垂直 Skill。',
-    status: '计划',
-  },
-  {
-    date: '2026 Q3',
-    title: '移动端发布',
-    description: '推出 iOS 和 Android 应用，实现真正的多端协同。',
-    status: '计划',
-  },
-  {
-    date: '2026 Q4',
-    title: '企业版',
-    description: '推出团队协作功能，支持企业定制化需求。',
-    status: '计划',
-  },
-]
 
 export default function AboutPage() {
   return (
@@ -181,7 +128,7 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-6 space-y-4">
-          {milestones.map((milestone, index) => (
+          {milestones.map((milestone) => (
             <div
               key={milestone.date}
               className="flex flex-col gap-4 rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 sm:flex-row sm:items-center"

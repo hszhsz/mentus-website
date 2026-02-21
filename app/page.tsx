@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import type { ReactNode } from 'react'
 import {
   Brain,
   Cloud,
@@ -12,7 +11,17 @@ import {
   Zap,
 } from 'lucide-react'
 
+import FeatureCard from '@/components/FeatureCard'
+import HeroStat from '@/components/HeroStat'
+import StepCard from '@/components/StepCard'
+import TrustCard from '@/components/TrustCard'
+import PricingCard from '@/components/PricingCard'
+import { pricingPlans } from '@/lib/data'
+
 export default function Home() {
+  // 首页只展示前3个定价方案
+  const homePricingPlans = pricingPlans.slice(0, 3)
+
   return (
     <div>
       <section className="overflow-hidden py-20 sm:py-28">
@@ -26,7 +35,7 @@ export default function Home() {
               让 AI 有脑，也有手
             </h1>
             <p className="mt-6 text-base leading-relaxed text-zinc-300/90 sm:text-lg">
-              Mentus 基于 OpenClaw 内核，把“思考”与“执行”合在一起：你只需说清楚目标，
+              Mentus 基于 OpenClaw 内核，把「思考」与「执行」合在一起：你只需说清楚目标，
               它负责拆解、规划并动手完成，把时间还给你。
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -122,33 +131,9 @@ export default function Home() {
           </div>
 
           <div className="mt-10 grid gap-4 lg:grid-cols-3">
-            <PricingCard
-              name="免费版"
-              price="¥0"
-              description="基础功能体验"
-              features={['基础免费 Skill', '本地执行能力', '社区支持']}
-              cta="开始使用"
-              href="/#download"
-            />
-            <PricingCard
-              name="基础版"
-              price="¥29"
-              period="/月"
-              description="适合个人用户"
-              highlighted
-              features={['多端协同', '云端同步', '所有免费 Skill', '付费 Skill 8 折', '基础模型额度']}
-              cta="升级基础版"
-              href="/contact"
-            />
-            <PricingCard
-              name="高级版"
-              price="¥99"
-              period="/月"
-              description="适合专业用户"
-              features={['基础版所有权益', '更高模型额度', '每月解锁部分付费 Skill', '付费 Skill 6 折', '优先支持']}
-              cta="联系购买"
-              href="/contact"
-            />
+            {homePricingPlans.map((plan) => (
+              <PricingCard key={plan.name} plan={plan} />
+            ))}
           </div>
         </div>
       </section>
@@ -241,137 +226,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
-  )
-}
-
-function HeroStat({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="glass rounded-2xl p-6">
-      <div className="text-sm font-medium text-white">{title}</div>
-      <div className="mt-2 text-sm text-zinc-300/80">{desc}</div>
-    </div>
-  )
-}
-
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode
-  title: string
-  description: string
-}) {
-  return (
-    <div className="glass group rounded-2xl p-6 transition hover:bg-white/8">
-      <div className="flex items-center gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 transition group-hover:bg-white/10">
-          {icon}
-        </div>
-        <div className="text-sm font-semibold text-white">{title}</div>
-      </div>
-      <div className="mt-4 text-sm leading-relaxed text-zinc-300/80">{description}</div>
-    </div>
-  )
-}
-
-function PricingCard({
-  name,
-  price,
-  period = '',
-  description,
-  features,
-  highlighted = false,
-  cta,
-  href,
-}: {
-  name: string
-  price: string
-  period?: string
-  description: string
-  features: string[]
-  highlighted?: boolean
-  cta: string
-  href: string
-}) {
-  return (
-    <div
-      className={`rounded-2xl p-6 ring-1 transition ${
-        highlighted
-          ? 'bg-primary-600/20 ring-primary-500/40 shadow-[0_0_0_1px_rgba(14,165,233,0.18),0_18px_80px_rgba(2,132,199,0.12)]'
-          : 'glass hover:bg-white/8'
-      }`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="text-sm font-semibold text-white">{name}</div>
-          <div className="mt-2 text-3xl font-semibold tracking-tight text-white">
-            {price}
-            <span className="ml-1 text-base font-normal text-zinc-200/80">{period}</span>
-          </div>
-        </div>
-        {highlighted ? (
-          <div className="rounded-full bg-white/10 px-3 py-1 text-xs text-white ring-1 ring-white/10">
-            推荐
-          </div>
-        ) : null}
-      </div>
-
-      <div className="mt-3 text-sm text-zinc-300/80">{description}</div>
-
-      <ul className="mt-6 space-y-3">
-        {features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2 text-sm text-zinc-200/90">
-            <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
-              <span className="text-xs text-primary-500">✓</span>
-            </span>
-            <span className="leading-relaxed">{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <Link
-        href={href}
-        className={`mt-7 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-medium ring-1 transition ${
-          highlighted
-            ? 'bg-primary-600 text-white ring-primary-500/50 hover:bg-primary-500'
-            : 'bg-white/5 text-white ring-white/10 hover:bg-white/10'
-        }`}
-      >
-        {cta}
-      </Link>
-    </div>
-  )
-}
-
-function StepCard({
-  index,
-  title,
-  desc,
-}: {
-  index: string
-  title: string
-  desc: string
-}) {
-  return (
-    <div className="flex items-start gap-4 rounded-xl bg-white/5 p-4 ring-1 ring-white/10">
-      <div className="rounded-full bg-white/5 px-3 py-1 text-xs text-zinc-200 ring-1 ring-white/10">
-        {index}
-      </div>
-      <div>
-        <div className="text-sm font-semibold text-white">{title}</div>
-        <div className="mt-1 text-sm text-zinc-300/80">{desc}</div>
-      </div>
-    </div>
-  )
-}
-
-function TrustCard({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="glass rounded-2xl p-6">
-      <div className="text-sm font-semibold text-white">{title}</div>
-      <div className="mt-3 text-sm leading-relaxed text-zinc-300/80">{desc}</div>
     </div>
   )
 }

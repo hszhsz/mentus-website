@@ -4,8 +4,8 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import type { ReactNode } from 'react'
 
-import SiteFooter from '../components/SiteFooter'
-import SiteHeader from '../components/SiteHeader'
+import SiteFooter from '@/components/SiteFooter'
+import SiteHeader from '@/components/SiteHeader'
 
 const inter = Inter({ subsets: ['latin'] })
 

@@ -1,100 +1,15 @@
 import type { Metadata } from 'next'
-import { Check, HelpCircle, Sparkles, Zap } from 'lucide-react'
+import { Check, HelpCircle } from 'lucide-react'
 import Link from 'next/link'
 
-import PageShell from '../../components/PageShell'
+import PageShell from '@/components/PageShell'
+import PricingCard from '@/components/PricingCard'
+import { pricingPlans, faqs } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: '定价方案',
   description: '选择适合你的 Mentus 方案。免费版、基础版、高级版，满足不同用户需求。',
 }
-
-const plans = [
-  {
-    name: '免费版',
-    price: '¥0',
-    period: '',
-    description: '基础功能体验',
-    icon: Zap,
-    features: [
-      '基础免费 Skill（10个）',
-      '本地执行能力',
-      '纯本地模式',
-      '社区支持',
-    ],
-    limitations: ['无云端同步', '无多端协同', '无付费 Skill 使用'],
-    cta: '免费开始',
-    href: '/download',
-    highlighted: false,
-  },
-  {
-    name: '基础版',
-    price: '¥29',
-    period: '/月',
-    description: '适合个人用户',
-    icon: Sparkles,
-    features: [
-      '多端协同',
-      '云端同步',
-      '所有免费 Skill',
-      '付费 Skill 8 折',
-      '基础模型额度',
-      '邮件支持',
-    ],
-    limitations: [],
-    cta: '升级基础版',
-    href: '/contact',
-    highlighted: true,
-    badge: '推荐',
-  },
-  {
-    name: '高级版',
-    price: '¥99',
-    period: '/月',
-    description: '适合专业用户',
-    icon: Zap,
-    features: [
-      '基础版所有权益',
-      '更高模型额度',
-      '每月解锁部分付费 Skill',
-      '付费 Skill 6 折',
-      '优先技术支持',
-      '定制化 Skill 预约',
-    ],
-    limitations: [],
-    cta: '联系购买',
-    href: '/contact',
-    highlighted: false,
-  },
-]
-
-const faqs = [
-  {
-    question: '免费版和付费版有什么区别？',
-    answer:
-      '免费版仅支持本地执行和基础 Skill，不包含云端同步和多端协同功能。付费版支持云端同步、多端协同，并包含模型额度和 Skill 折扣。',
-  },
-  {
-    question: '可以随时取消订阅吗？',
-    answer:
-      '是的，你可以随时取消订阅。取消后，你的账号将在当前计费周期结束后降级为免费版，已购买的付费 Skill 仍可继续使用。',
-  },
-  {
-    question: 'Skill 是如何收费的？',
-    answer:
-      'Skill 分为免费和付费两种。付费 Skill 支持单次付费永久使用、按调用次数付费和按月订阅付费三种模式，价格从 10-200 元不等。付费会员可享受折扣。',
-  },
-  {
-    question: '模型额度用完了怎么办？',
-    answer:
-      '你可以单独购买模型额度包，或升级到更高级别的会员计划。模型额度用完后，你仍可使用本地执行功能。',
-  },
-  {
-    question: '支持哪些支付方式？',
-    answer:
-      '我们支持微信支付、支付宝和银行卡支付。所有支付均通过安全的第三方支付渠道完成。',
-  },
-]
 
 export default function PricingPage() {
   return (
@@ -104,7 +19,7 @@ export default function PricingPage() {
     >
       {/* 定价卡片 */}
       <div className="grid gap-4 lg:grid-cols-3">
-        {plans.map((plan) => (
+        {pricingPlans.map((plan) => (
           <PricingCard key={plan.name} plan={plan} />
         ))}
       </div>
@@ -233,109 +148,5 @@ export default function PricingPage() {
         </div>
       </div>
     </PageShell>
-  )
-}
-
-function PricingCard({
-  plan,
-}: {
-  plan: {
-    name: string
-    price: string
-    period: string
-    description: string
-    icon: React.ComponentType<{ className?: string }>
-    features: string[]
-    limitations: string[]
-    cta: string
-    href: string
-    highlighted: boolean
-    badge?: string
-  }
-}) {
-  const Icon = plan.icon
-
-  return (
-    <div
-      className={`rounded-2xl p-6 ring-1 transition ${
-        plan.highlighted
-          ? 'bg-primary-600/20 ring-primary-500/40 shadow-[0_0_0_1px_rgba(14,165,233,0.18),0_18px_80px_rgba(2,132,199,0.12)]'
-          : 'glass hover:bg-white/8'
-      }`}
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div
-            className={`grid h-10 w-10 place-items-center rounded-xl ring-1 ${
-              plan.highlighted
-                ? 'bg-primary-500/20 ring-primary-500/30'
-                : 'bg-white/5 ring-white/10'
-            }`}
-          >
-            <Icon
-              className={`h-5 w-5 ${
-                plan.highlighted ? 'text-primary-500' : 'text-zinc-400'
-              }`}
-            />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-white">
-                {plan.name}
-              </span>
-              {plan.badge && (
-                <span className="rounded-full bg-primary-500/20 px-2 py-0.5 text-xs text-primary-400 ring-1 ring-primary-500/30">
-                  {plan.badge}
-                </span>
-              )}
-            </div>
-            <div className="mt-1 text-2xl font-semibold tracking-tight text-white">
-              {plan.price}
-              <span className="ml-1 text-base font-normal text-zinc-200/80">
-                {plan.period}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p className="mt-3 text-sm text-zinc-300/80">{plan.description}</p>
-
-      <ul className="mt-6 space-y-3">
-        {plan.features.map((feature) => (
-          <li
-            key={feature}
-            className="flex items-start gap-2 text-sm text-zinc-200/90"
-          >
-            <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
-              <span className="text-xs text-emerald-500">✓</span>
-            </span>
-            <span className="leading-relaxed">{feature}</span>
-          </li>
-        ))}
-        {plan.limitations.map((limitation) => (
-          <li
-            key={limitation}
-            className="flex items-start gap-2 text-sm text-zinc-500"
-          >
-            <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
-              <span className="text-xs text-zinc-600">—</span>
-            </span>
-            <span className="leading-relaxed">{limitation}</span>
-          </li>
-        ))}
-      </ul>
-
-      <Link
-        href={plan.href}
-        className={`mt-7 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-medium ring-1 transition ${
-          plan.highlighted
-            ? 'bg-primary-600 text-white ring-primary-500/50 hover:bg-primary-500'
-            : 'bg-white/5 text-white ring-white/10 hover:bg-white/10'
-        }`}
-      >
-        {plan.cta}
-      </Link>
-    </div>
   )
 }
